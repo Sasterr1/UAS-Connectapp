@@ -32,7 +32,7 @@ const simpanNotifikasi = async (pesan) => {
 
   const { error: insertError } = await supabase
     .from("notifikasi")
-    .insert({ pesan });
+    .insert([{ pesan }]);
 
   if (insertError) {
     console.error("Gagal menyimpan notifikasi:", insertError);

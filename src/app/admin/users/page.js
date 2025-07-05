@@ -1,58 +1,59 @@
 'use client';
+import { useState } from "react";
 import UserCard from "@/components/ui/user-card";
 import {
-  IconLogout,
-  IconLogout2,
-  IconUser,
-  IconUsersGroup,
-  IconUsersPlus,
   IconPlus,
 } from "@tabler/icons-react";
-import { usersData } from "../../../../mock/userdata";
 import useSWR from "swr";
 
-
 export default function Users() {
-  const data = usersData
-  const fetcher = (...args) => fetch(...args).then(res => res.json())
+  const [searchQuery, setSearchQuery] = useState("");
+  const fetcher = (...args) => fetch(...args).then(res => res.json());
   const {
     data: users,
     error,
-    isLoading } = useSWR('https://jsonplaceholder.typicode.com/users', fetcher)
+    isLoading
+  } = useSWR('https://jsonplaceholder.typicode.com/users', fetcher);
 
-    if (isLoading) {
-      return(
-        <div>
-          <p>Loading..</p>
-        </div>
-      )
-    }
+  if (isLoading) {
+    return (
+      <div>
+        <p>Loading..</p>
+      </div>
+    );
+  }
 
-    
-    if (error) {
-      return(
-        <div>
-          <p>Gagal Menggambil Data</p>
-        </div>
-      )
-    }
+  if (error) {
+    return (
+      <div>
+        <p>Gagal Mengambil Data</p>
+      </div>
+    );
+  }
 
-    console.log(users);
+  // Filter berdasarkan nama atau email
+  const filteredUsers = users.filter(user =>
+    user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    user.email.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <section id="container" className="flex h-screen justify-center">
       <section id="content" className="bg-white w-[100%] p-5">
         <input
           placeholder="Cari user"
-          className="flex w-[98%] h-[5vh] mb-5 p-4 text-[14,5px] border border-gray-300 rounded-[7px]"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="flex w-[98%] h-[5vh] mb-5 p-4 text-sm border border-gray-300 rounded-[7px]"
         />
-        {users.map((user, index) => (
+
+        {filteredUsers.map((user, index) => (
           <UserCard
             key={index}
             name={user.name}
             email={user.email}
             roles={user.username}
-            
+
           />
         ))}
       </section>
