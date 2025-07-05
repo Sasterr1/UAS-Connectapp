@@ -31,7 +31,7 @@ export default function Users() {
     );
   }
 
-  // Filter berdasarkan nama atau email
+  
   const filteredUsers = users.filter(user =>
     user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     user.email.toLowerCase().includes(searchQuery.toLowerCase())
