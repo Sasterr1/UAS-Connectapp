@@ -76,9 +76,9 @@ const simpanNotifikasi = async (pesan) => {
     setNewTodo({ title: "", description: "", due_date: "" });
     setShowForm(false);
 
-    await simpanNotifikasi(
-      `📌Tugas baru "${newTodo.title}" telah ditambahkan 🆕`
-    );
+await simpanNotifikasi(
+  `📌Tugas baru "${newTodo.title}" telah ditambahkan 🆕`
+);
   };
 
   const checkTaskStatus = async (todoList) => {
@@ -95,13 +95,11 @@ const simpanNotifikasi = async (pesan) => {
           )} hari lagi!`
         );
       }
-          if (diffDays < 0 && todo.status !== "selesai") {
-      await simpanNotifikasi(
-        `⚠️ Deadline tugas "${todo.title}" telah lewat!`,
-        todo.id_todo,
-        "gagal"
-      );
-    }
+if (diffDays < 0) {
+  await simpanNotifikasi(
+    `⚠️ Deadline tugas "${todo.title}" telah lewat!`
+  );
+}
 
       if (deadline < now) {
         const { data: existing, error: checkError } = await supabase
