@@ -30,9 +30,11 @@ const simpanNotifikasi = async (pesan) => {
 
   if (existing) return;
 
+   const waktu = new Date().toISOString();
+
   const { error: insertError } = await supabase
     .from("notifikasi")
-    .insert([{ pesan }]);
+    .insert([{ pesan, waktu }]);
 
   if (insertError) {
     console.error("Gagal menyimpan notifikasi:", insertError);
